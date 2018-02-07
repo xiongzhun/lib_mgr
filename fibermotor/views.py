@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from django.db.models import Q
 from django.shortcuts import render
 from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 from fibermotor import models
@@ -87,7 +88,30 @@ def search(request):
         error_msg = '请输入关键词'
         return render(request, 'errors.html', {'error_msg': error_msg})
 
-    host_list = models.Computer.objects.filter(name__contains=q)
+    host_list = models.Computer.objects.filter(mgr_ip__icontains=q)
+    paginator = Paginator(host_list, 10)
+    page = request.GET.get('page')
+    try:
+        host_list = paginator.page(page)
+    except PageNotAnInteger:
+        # 如果page不是整数，则展示第1页
+        host_list = paginator.page(1)
+    except EmptyPage:
+        # 如果page超过范围，则展示最后一页
+        host_list = paginator.page(paginator.num_pages)
+    query_params = request.GET.copy()
+    query_params.pop('page', None)  # delete page param
+    context = {
+        'page': page,
+        'paginator': paginator,
+        'query_params': query_params,
+        'host_list': host_list,
+    }
+    return render(request, 'results.html', context)
+
+
+def host_unused(request):
+    host_list = models.Computer.objects.filter(purpose='无').order_by("mgr_ip")
     paginator = Paginator(host_list, 10)
     page = request.GET.get('page')
     try:
@@ -107,4 +131,220 @@ def search(request):
         'host_list': host_list,
     }
 
-    return render(request, 'results.html', context)
+    return render(request, 'host_list.html', context)
+
+
+def host_no_time(request):
+    host_list = models.Computer.objects.filter(~Q(purpose='无') & Q(left_time__gte=1) & Q(left_time__lt=15)).order_by("mgr_ip")
+    paginator = Paginator(host_list, 10)
+    page = request.GET.get('page')
+    try:
+        host_list = paginator.page(page)
+    except PageNotAnInteger:
+        # 如果page不是整数，则展示第1页
+        host_list = paginator.page(1)
+    except EmptyPage:
+        # 如果page超过范围，则展示最后一页
+        host_list = paginator.page(paginator.num_pages)
+    query_params = request.GET.copy()
+    query_params.pop('page', None)  # delete page param
+    context = {
+        'page': page,
+        'paginator': paginator,
+        'query_params': query_params,
+        'host_list': host_list,
+    }
+    return render(request, 'host_list.html', context)
+
+
+def host_always(request):
+    host_list = models.Computer.objects.filter(~Q(purpose='无') & Q(always=1)).order_by("mgr_ip")
+    paginator = Paginator(host_list, 10)
+    page = request.GET.get('page')
+    try:
+        host_list = paginator.page(page)
+    except PageNotAnInteger:
+        # 如果page不是整数，则展示第1页
+        host_list = paginator.page(1)
+    except EmptyPage:
+        # 如果page超过范围，则展示最后一页
+        host_list = paginator.page(paginator.num_pages)
+    query_params = request.GET.copy()
+    query_params.pop('page', None)  # delete page param
+    context = {
+        'page': page,
+        'paginator': paginator,
+        'query_params': query_params,
+        'host_list': host_list,
+    }
+    return render(request, 'host_list.html', context)
+
+
+def host_out_time(request):
+    host_list = models.Computer.objects.filter(~Q(purpose='无') & Q(left_time__lt=1)).order_by("mgr_ip")
+    paginator = Paginator(host_list, 10)
+    page = request.GET.get('page')
+    try:
+        host_list = paginator.page(page)
+    except PageNotAnInteger:
+        # 如果page不是整数，则展示第1页
+        host_list = paginator.page(1)
+    except EmptyPage:
+        # 如果page超过范围，则展示最后一页
+        host_list = paginator.page(paginator.num_pages)
+    query_params = request.GET.copy()
+    query_params.pop('page', None)  # delete page param
+    context = {
+        'page': page,
+        'paginator': paginator,
+        'query_params': query_params,
+        'host_list': host_list,
+    }
+    return render(request, 'host_list.html', context)
+
+
+def host_active(request):
+    host_list = models.Computer.objects.filter(~Q(purpose='无') & Q(left_time__gte=15)).order_by("mgr_ip")
+    paginator = Paginator(host_list, 10)
+    page = request.GET.get('page')
+    try:
+        host_list = paginator.page(page)
+    except PageNotAnInteger:
+        # 如果page不是整数，则展示第1页
+        host_list = paginator.page(1)
+    except EmptyPage:
+        # 如果page超过范围，则展示最后一页
+        host_list = paginator.page(paginator.num_pages)
+    query_params = request.GET.copy()
+    query_params.pop('page', None)  # delete page param
+    context = {
+        'page': page,
+        'paginator': paginator,
+        'query_params': query_params,
+        'host_list': host_list,
+    }
+    return render(request, 'host_list.html', context)
+
+
+def ip_unused(request):
+    ip_list = models.Ips.objects.filter(purpose='无').order_by("ip")
+    paginator = Paginator(ip_list, 10)
+    page = request.GET.get('page')
+    try:
+        ip_list = paginator.page(page)
+    except PageNotAnInteger:
+        # 如果page不是整数，则展示第1页
+        ip_list = paginator.page(1)
+    except EmptyPage:
+        # 如果page超过范围，则展示最后一页
+        ip_list = paginator.page(paginator.num_pages)
+    query_params = request.GET.copy()
+    ip_count = models.Ips.objects.count()
+    query_params.pop('page', None)  # delete page param
+    context = {
+        'page': page,
+        'paginator': paginator,
+        'query_params': query_params,
+        'ip_list': ip_list,
+        'ip_count': ip_count,
+    }
+    return render(request, 'ip_list.html', context)
+
+
+def ip_no_time(request):
+    ip_list = models.Ips.objects.filter(~Q(purpose='无') & Q(left_time__gte=1) & Q(left_time__lt=15)).order_by("ip")
+    paginator = Paginator(ip_list, 10)
+    page = request.GET.get('page')
+    try:
+        ip_list = paginator.page(page)
+    except PageNotAnInteger:
+        # 如果page不是整数，则展示第1页
+        ip_list = paginator.page(1)
+    except EmptyPage:
+        # 如果page超过范围，则展示最后一页
+        ip_list = paginator.page(paginator.num_pages)
+    query_params = request.GET.copy()
+    ip_count = models.Ips.objects.count()
+    query_params.pop('page', None)  # delete page param
+    context = {
+        'page': page,
+        'paginator': paginator,
+        'query_params': query_params,
+        'ip_list': ip_list,
+        'ip_count': ip_count,
+    }
+    return render(request, 'ip_list.html', context)
+
+
+def ip_always(request):
+    ip_list = models.Ips.objects.filter(~Q(purpose='无') & Q(always=1)).order_by("ip")
+    paginator = Paginator(ip_list, 10)
+    page = request.GET.get('page')
+    try:
+        ip_list = paginator.page(page)
+    except PageNotAnInteger:
+        # 如果page不是整数，则展示第1页
+        ip_list = paginator.page(1)
+    except EmptyPage:
+        # 如果page超过范围，则展示最后一页
+        ip_list = paginator.page(paginator.num_pages)
+    query_params = request.GET.copy()
+    ip_count = models.Ips.objects.count()
+    query_params.pop('page', None)  # delete page param
+    context = {
+        'page': page,
+        'paginator': paginator,
+        'query_params': query_params,
+        'ip_list': ip_list,
+        'ip_count': ip_count,
+    }
+    return render(request, 'ip_list.html', context)
+
+def ip_out_time(request):
+    ip_list = models.Ips.objects.filter(~Q(purpose='无') & Q(left_time__lt=1)).order_by("ip")
+    paginator = Paginator(ip_list, 10)
+    page = request.GET.get('page')
+    try:
+        ip_list = paginator.page(page)
+    except PageNotAnInteger:
+        # 如果page不是整数，则展示第1页
+        ip_list = paginator.page(1)
+    except EmptyPage:
+        # 如果page超过范围，则展示最后一页
+        ip_list = paginator.page(paginator.num_pages)
+    query_params = request.GET.copy()
+    ip_count = models.Ips.objects.count()
+    query_params.pop('page', None)  # delete page param
+    context = {
+        'page': page,
+        'paginator': paginator,
+        'query_params': query_params,
+        'ip_list': ip_list,
+        'ip_count': ip_count,
+    }
+    return render(request, 'ip_list.html', context)
+
+
+def ip_active(request):
+    ip_list = models.Ips.objects.filter(~Q(purpose='无') & Q(left_time__gte=15)).order_by("ip")
+    paginator = Paginator(ip_list, 10)
+    page = request.GET.get('page')
+    try:
+        ip_list = paginator.page(page)
+    except PageNotAnInteger:
+        # 如果page不是整数，则展示第1页
+        ip_list = paginator.page(1)
+    except EmptyPage:
+        # 如果page超过范围，则展示最后一页
+        ip_list = paginator.page(paginator.num_pages)
+    query_params = request.GET.copy()
+    ip_count = models.Ips.objects.count()
+    query_params.pop('page', None)  # delete page param
+    context = {
+        'page': page,
+        'paginator': paginator,
+        'query_params': query_params,
+        'ip_list': ip_list,
+        'ip_count': ip_count,
+    }
+    return render(request, 'ip_list.html', context)

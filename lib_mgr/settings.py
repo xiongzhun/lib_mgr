@@ -82,8 +82,15 @@ WSGI_APPLICATION = 'lib_mgr.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'lib_mgr',
+        'USER': 'root',
+        'PASSWORD': '1qaz@WSX',
+        'HOST': '10.121.5.41',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': 'SET default_storage_engine=INNODB;SET foreign_key_checks = 0;SET character_set_connection=utf8;SET collation_connection=utf8_unicode_ci'
+        }
     }
 }
 
@@ -120,6 +127,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+PROJECT_ROOT = os.path.dirname(__file__)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/

@@ -1,11 +1,11 @@
 {% load static %}
 {% include 'home.html' %}
 <div class="ui segment">
-    <a class="ui red button">过期</a>
-    <a class="ui yellow button">即将过期</a>
-    <a class="ui green button">长期使用</a>
-    <a class="ui blue button">正常使用</a>
-    <a class="ui grey button" href="../ip/ip_no_use.html">未使用</a>
+    <a class="ui small red button" href="http://10.121.5.47/ip/out_time/">过期</a>
+    <a class="ui small yellow button" href="http://10.121.5.47/ip/no_time/">即将过期</a>
+    <a class="ui small green button" href="http://10.121.5.47/ip/always/">长期使用</a>
+    <a class="ui small blue button" href="http://10.121.5.47/ip/active/">正常使用</a>
+    <a class="ui small grey button" href="http://10.121.5.47/ip/unused/">未使用</a>
     <table class="ui selectable celled table">
         <thead>
         <tr>
@@ -22,7 +22,7 @@
         {% for line in ip_list %}
             {% if  line.purpose == '无' %}
                 <tr class="ui inverted grey table">
-                    <td><a href="../ip/{{ line.id }}"><i class="cloud icon"></i></a></td>
+                    <td><a href="http://10.121.5.47/ip/{{ line.id }}"><i class="cloud icon"></i></a></td>
                     <td>{{ line.ip }}</td>
                     <td>{{ line.person }}</td>
                     <td>未使用</td>
@@ -33,7 +33,7 @@
             {% elif line.always == 1 %}
 
                 <tr class="ui inverted green table">
-                    <td><a href="../ip/{{ line.id }}"><i class="cloud icon"></i></a></td>
+                    <td><a href="http://10.121.5.47/ip/{{ line.id }}"><i class="cloud icon"></i></a></td>
                     <td>{{ line.ip }}</td>
                     <td>{{ line.person }}</td>
                     <td>{{ line.purpose }}</td>
@@ -43,7 +43,7 @@
                 </tr>
             {% elif line.left_time < 0 %}
                 <tr class="ui inverted red table">
-                    <td><a href="../ip/{{ line.id }}"><i class="cloud icon"></i></a></td>
+                    <td><a href="http://10.121.5.47/ip/{{ line.id }}"><i class="cloud icon"></i></a></td>
                     <td>{{ line.ip }}</td>
                     <td>{{ line.person }}</td>
                     <td>{{ line.purpose }}</td>
@@ -53,7 +53,7 @@
                 </tr>
             {% elif line.left_time < 15 %}
                 <tr class="ui inverted yellow table">
-                    <td><a href="../ip/{{ line.id }}"><i class="cloud icon"></i></a></td>
+                    <td><a href="http://10.121.5.47/ip/{{ line.id }}"><i class="cloud icon"></i></a></td>
                     <td>{{ line.ip }}</td>
                     <td>{{ line.person }}</td>
                     <td>{{ line.purpose }}</td>
@@ -63,7 +63,7 @@
                 </tr>
             {% else %}
                 <tr class="ui inverted blue table">
-                    <td><a href="../ip/{{ line.id }}"><i class="cloud icon"></i></a></td>
+                    <td><a href="http://10.121.5.47/ip/{{ line.id }}"><i class="cloud icon"></i></a></td>
                     <td>{{ line.ip }}</td>
                     <td>{{ line.person }}</td>
                     <td>{{ line.purpose }}</td>

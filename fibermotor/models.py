@@ -20,7 +20,7 @@ class Region(models.Model):
 @python_2_unicode_compatible
 class Computer(models.Model):
     sn = models.CharField(verbose_name='SN序号', max_length=20)
-    name = models.CharField(verbose_name='主机名', null=True, max_length=40)
+    name = models.CharField(verbose_name='主机名', blank=True, max_length=40)
     purpose = models.CharField(verbose_name='使用目的', default='无', max_length=80)
     person = models.CharField(verbose_name='负责人', default='无', max_length=20)
     always = models.BooleanField(verbose_name='长期占用')
@@ -31,14 +31,13 @@ class Computer(models.Model):
     cabinet = models.CharField(verbose_name='机柜', max_length=20)
     bmc_ip = models.GenericIPAddressField(verbose_name='BMC IP')
     mgr_ip = models.GenericIPAddressField(verbose_name='管理 IP')
-    cpu = models.CharField(verbose_name='CPU', null=False, max_length=20)
-    RAM = models.CharField(verbose_name='内存', null=False, max_length=20)
-    disk = models.CharField(verbose_name='存储', null=False, max_length=20)
-    mac_0 = models.CharField(verbose_name='网卡1 MAC 地址', null=False, max_length=20)
-    mac_1 = models.CharField(verbose_name='网卡2 MAC 地址', null=False, max_length=20)
-    mac_2 = models.CharField(verbose_name='网卡3 MAC 地址', null=False, max_length=20)
-    mac_3 = models.CharField(verbose_name='网卡4 MAC 地址', null=False, max_length=20)
-
+    cpu = models.CharField(verbose_name='CPU', blank=True, max_length=20)
+    RAM = models.CharField(verbose_name='内存', blank=True, max_length=20)
+    disk = models.CharField(verbose_name='存储', blank=True, max_length=20)
+    mac_0 = models.CharField(verbose_name='网卡1 MAC 地址', blank=True, max_length=20)
+    mac_1 = models.CharField(verbose_name='网卡2 MAC 地址', blank=True, max_length=20)
+    mac_2 = models.CharField(verbose_name='网卡3 MAC 地址', blank=True, max_length=20)
+    mac_3 = models.CharField(verbose_name='网卡4 MAC 地址', blank=True, max_length=20)
 
     def __str__(self):
         return self.sn
@@ -53,7 +52,7 @@ class Ips(models.Model):
     person = models.CharField(verbose_name='负责人', max_length=20)
     purpose = models.CharField(verbose_name='使用目的', default='无', max_length=20)
     always = models.BooleanField(verbose_name='长期占用')
-    left_time = models.IntegerField(verbose_name='剩余天数')
+    left_time = models.IntegerField(verbose_name='剩余天数', default='0')
     update_time = models.DateField(verbose_name='更新时间', auto_now=True)
     bmc_ip = models.BooleanField(verbose_name='是否BMC')
 
@@ -63,4 +62,3 @@ class Ips(models.Model):
     class Meta:
         verbose_name = 'ip'
         verbose_name_plural = 'ip'
-

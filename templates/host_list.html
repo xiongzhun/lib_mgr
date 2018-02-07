@@ -1,7 +1,11 @@
 {% load static %}
 {% include 'home.html' %}
 <div class="ui segment">
-    {% include 'note.html' %}
+    <a class="ui small red button" href="http://10.121.5.47/host/out_time/">过期</a>
+    <a class="ui small yellow button" href="http://10.121.5.47/host/no_time/">即将过期</a>
+    <a class="ui small green button" href="http://10.121.5.47/host/always/">长期使用</a>
+    <a class="ui small blue button" href="http://10.121.5.47/host/active/">正常使用</a>
+    <a class="ui small grey button" href="http://10.121.5.47/host/unused/">未使用</a>
     <table class="ui selectable column table">
         <thead>
         <tr>
@@ -17,8 +21,8 @@
         <tbody>
         {% for line in host_list %}
             {% if  line.purpose == '无' %}
-                <tr class="bg-white">
-                    <td><a href="../host/{{ line.id }}"><i class="cloud icon"></i></a></td>
+                <tr class="bg-ui inverted grey table">
+                    <td><a href="http://10.121.5.47/host/{{ line.id }}"><i class="cloud icon"></i></a></td>
                     <td>{{ line.sn }}</td>
                     <td>{{ line.mgr_ip }}</td>
                     <td>{{ line.bmc_ip }}</td>
@@ -28,8 +32,8 @@
                 </tr>
             {% elif line.always == 1 %}
 
-                <tr class="bg-success">
-                    <td><a href="../host/{{ line.id }}"><i class="cloud icon"></i></a></td>
+                <tr class="ui inverted green table">
+                    <td><a href="http://10.121.5.47/host/{{ line.id }}"><i class="cloud icon"></i></a></td>
                     <td>{{ line.sn }}</td>
                     <td>{{ line.mgr_ip }}</td>
                     <td>{{ line.bmc_ip }}</td>
@@ -38,8 +42,8 @@
                     <td>长期使用</td>
                 </tr>
             {% elif line.left_time < 0 %}
-                <tr class="bg-danger">
-                    <td><a href="../host/{{ line.id }}"><i class="cloud icon"></i></a></td>
+                <tr class="ui inverted red table">
+                    <td><a href="http://10.121.5.47/host/{{ line.id }}"><i class="cloud icon"></i></a></td>
                     <td>{{ line.sn }}</td>
                     <td>{{ line.mgr_ip }}</td>
                     <td>{{ line.bmc_ip }}</td>
@@ -48,8 +52,8 @@
                     <td>{{ line.left_time }}</td>
                 </tr>
             {% elif line.left_time < 15 %}
-                <tr class="bg-warning">
-                    <td><a href="../host/{{ line.id }}"><i class="cloud icon"></i></a></td>
+                <tr class="ui inverted yellow table">
+                    <td><a href="http://10.121.5.47/host/{{ line.id }}"><i class="cloud icon"></i></a></td>
                     <td>{{ line.sn }}</td>
                     <td>{{ line.mgr_ip }}</td>
                     <td>{{ line.bmc_ip }}</td>
@@ -58,8 +62,8 @@
                     <td>{{ line.left_time }}</td>
                 </tr>
             {% else %}
-                <tr class="bg-info">
-                    <td><a href="../host/{{ line.id }}"><i class="cloud icon"></i></a></td>
+                <tr class="ui inverted blue table">
+                    <td><a href="http://10.121.5.47/host/{{ line.id }}"><i class="cloud icon"></i></a></td>
                     <td>{{ line.sn }}</td>
                     <td>{{ line.mgr_ip }}</td>
                     <td>{{ line.bmc_ip }}</td>

@@ -14,8 +14,8 @@ class Log_type(models.Model):
         return self.type
 
     class Meta:
-        verbose_name = '日志类型'
-        verbose_name_plural = '日志类型'
+        verbose_name = '操作类型'
+        verbose_name_plural = '操作类型'
 
 
 @python_2_unicode_compatible
