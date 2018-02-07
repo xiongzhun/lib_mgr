@@ -1,0 +1,93 @@
+{% load static %}
+{% include 'home.html' %}
+
+
+<h4 class="ui horizontal divider header">
+  <i class="tag icon"></i>
+  使用详情
+</h4>
+<table class="ui definition table">
+    <tbody>
+    <tr>
+        <td class="two wide column"><font style="vertical-align: inherit;"><font
+                style="vertical-align: inherit;">IP地址</font></font></td>
+        <td><font style="vertical-align: inherit;"><font
+                style="vertical-align: inherit;">{{ host_detail.mgr_ip }}</font></font></td>
+    </tr>
+    <tr>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">使用者</font></font></td>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ host_detail.person }}</font></font>
+        </td>
+    </tr>
+    <tr>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">用途</font></font></td>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ host_detail.purpose }}</font></font>
+        </td>
+    </tr>
+    <tr>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">BMC IP</font></font></td>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ host_detail.bmc_ip }}</font></font>
+        </td>
+    </tr>
+
+
+    <tr>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">更新时间（天）</font></font></td>
+        <td><font style="vertical-align: inherit;"><font
+                style="vertical-align: inherit;">{{ host_detail.update_time }}</font></font></td>
+    </tr>
+    <tr>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">剩余时间</font></font></td>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+            {% if host_detail.always == 0 %}{{ host_detail.left_time }}天{% else %}长期使用{% endif %}
+        </font></font></td>
+    </tr>
+    </tbody>
+</table>
+
+<h4 class="ui horizontal divider header">
+    <i class="bar chart icon"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+    产品规格
+</font></font></h4>
+<table class="ui definition table">
+    <tbody>
+    <tr>
+        <td class="two wide column"><font style="vertical-align: inherit;"><font
+                style="vertical-align: inherit;">CPU</font></font></td>
+        <td><font style="vertical-align: inherit;"><font
+                style="vertical-align: inherit;">{{ host_detail.cpu }}</font></font></td>
+    </tr>
+    <tr>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 内存</font></font></td>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ host_detail.ram }}</font></font>
+        </td>
+    </tr>
+    <tr>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">存储</font></font></td>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ host_detail.disk }}</font></font>
+        </td>
+    </tr>
+    <tr>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">网卡1</font></font></td>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ host_detail.mac_0 }}</font></font>
+        </td>
+    </tr>
+        <tr>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">网卡2</font></font></td>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ host_detail.mac_1 }}</font></font>
+        </td>
+    </tr>
+        <tr>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">网卡3</font></font></td>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ host_detail.mac_2 }}</font></font>
+        </td>
+    </tr>
+        <tr>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">网卡4</font></font></td>
+        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ host_detail.mac_3 }}</font></font>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+{% include 'footer.html' %}

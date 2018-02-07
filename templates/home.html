@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>机房管理系统</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'semantic/dist/semantic.min.css' %}">
+    <script
+            src="{% static 'https://code.jquery.com/jquery-3.1.1.min.js' %}"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="{% static 'semantic/dist/semantic.min.js' %}"></script>
+    <script src="https://semantic-ui.com/javascript/library/tablesort.js"></script>
+
+</head>
+<body>
+<div class="ui pointing menu">
+    <div class="item">
+        <img src="{% static 'img/logo.png' %}">
+    </div>
+    <a class="item" href="../host/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+        主机
+    </font></font></a>
+    <a class="item" href="../ip/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+        IP
+    </font></font></a>
+    <a class="item" href="../log/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+        工作日志
+    </font></font></a>
+
+
+    <div class="right menu">
+        <div class="item">
+            <form class="ui transparent icon input" method="get" action="../search/">
+                {% csrf_token %}
+                <input type="text" name="q" placeholder="请输入服务器关键词...">
+                <i class="search link icon"></i>
+            </form>
+        </div>
+    </div>
+</div>

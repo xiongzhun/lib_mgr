@@ -1,0 +1,116 @@
+{% load static %}
+{% include 'home.html' %}
+<div class="ui segment">
+    <a class="ui red button">过期</a>
+    <a class="ui yellow button">即将过期</a>
+    <a class="ui green button">长期使用</a>
+    <a class="ui blue button">正常使用</a>
+    <a class="ui grey button" href="../ip/ip_no_use.html">未使用</a>
+    <table class="ui selectable celled table">
+        <thead>
+        <tr>
+            <th scope="col">详情</th>
+            <th scope="col">IP地址</th>
+            <th scope="col">负责人</th>
+            <th scope="col">用途</th>
+            <th scope="col">更新时间</th>
+            <th scope="col">剩余时间</th>
+            <th scope="col">BMC_IP</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for line in ip_list %}
+            {% if  line.purpose == '无' %}
+                <tr class="ui inverted grey table">
+                    <td><a href="../ip/{{ line.id }}"><i class="cloud icon"></i></a></td>
+                    <td>{{ line.ip }}</td>
+                    <td>{{ line.person }}</td>
+                    <td>未使用</td>
+                    <td>{{ line.update_time }}</td>
+                    <td>{{ line.left_time }}</td>
+                    <td>{{ line.bmc_ip }}</td>
+                </tr>
+            {% elif line.always == 1 %}
+
+                <tr class="ui inverted green table">
+                    <td><a href="../ip/{{ line.id }}"><i class="cloud icon"></i></a></td>
+                    <td>{{ line.ip }}</td>
+                    <td>{{ line.person }}</td>
+                    <td>{{ line.purpose }}</td>
+                    <td>{{ line.update_time }}</td>
+                    <td>长期使用</td>
+                    <td>{{ line.bmc_ip }}</td>
+                </tr>
+            {% elif line.left_time < 0 %}
+                <tr class="ui inverted red table">
+                    <td><a href="../ip/{{ line.id }}"><i class="cloud icon"></i></a></td>
+                    <td>{{ line.ip }}</td>
+                    <td>{{ line.person }}</td>
+                    <td>{{ line.purpose }}</td>
+                    <td>{{ line.update_time }}</td>
+                    <td>{{ line.left_time }}</td>
+                    <td>{{ line.bmc_ip }}</td>
+                </tr>
+            {% elif line.left_time < 15 %}
+                <tr class="ui inverted yellow table">
+                    <td><a href="../ip/{{ line.id }}"><i class="cloud icon"></i></a></td>
+                    <td>{{ line.ip }}</td>
+                    <td>{{ line.person }}</td>
+                    <td>{{ line.purpose }}</td>
+                    <td>{{ line.update_time }}</td>
+                    <td>{{ line.left_time }}</td>
+                    <td>{{ line.bmc_ip }}</td>
+                </tr>
+            {% else %}
+                <tr class="ui inverted blue table">
+                    <td><a href="../ip/{{ line.id }}"><i class="cloud icon"></i></a></td>
+                    <td>{{ line.ip }}</td>
+                    <td>{{ line.person }}</td>
+                    <td>{{ line.purpose }}</td>
+                    <td>{{ line.update_time }}</td>
+                    <td>{{ line.left_time }}</td>
+                    <td>{{ line.bmc_ip }}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+
+    </table>
+
+    <tr>
+        <th colspan="3">
+            <div class="ui right floated pagination menu">
+                <a class="icon item" href="?{{ query_params.urlencode }}&page=1">
+                    <i class="angle double left icon"></i>
+                </a>
+                {% if ip_list.has_previous %}
+                    <a class="item" href="?{{ query_params.urlencode }}&page={{ ip_list.previous_page_number }}">
+                        <i class="angle left icon"></i>
+                    </a>
+                {% else %}
+                {% endif %}
+                <a class="item"><font style="vertical-align: inherit;"><font
+                        style="vertical-align: inherit;">{{ ip_list.number }}/{{ ip_list.paginator.num_pages }}</font></font></a>
+                {% if ip_list.has_next %}
+                    <a class="item" href="?{{ query_params.urlencode }}&page={{ ip_list.next_page_number }}">
+                        <i class="angle right icon"></i>
+                    </a>
+                {% else %}
+                {% endif %}
+                <a class="icon item" href="?{{ query_params.urlencode }}&page={{ ip_list.paginator.num_pages }}">
+                    <i class="angle double right icon"></i>
+                </a>
+            </div>
+        </th>
+    </tr>
+    <div class="ui labeled button" tabindex="0">
+        <div class="ui basic pagination button">
+            <font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> 总计
+            </font></font></div>
+        <a class="ui basic left pointing pagination label"><font style="vertical-align: inherit;"><font
+                style="vertical-align: inherit;">
+            {{ ip_list.paginator.count }}
+        </font></font></a>
+    </div>
+</div>
+{% include 'footer.html' %}
